@@ -1,9 +1,8 @@
 package view;
 
 import java.util.concurrent.Semaphore;
-
 import javax.swing.JOptionPane;
-import controller.ThreadTrans;
+import controller.*;
 
 public class Principal {
 
@@ -16,7 +15,7 @@ public class Principal {
 			opc = Integer.parseInt(JOptionPane.showInputDialog("MENU\n\n" + 
 			
 					"1 - Imprimir transições de cálculo e banco de dados de 21 threads.\n" +
-					"2 - \n" +
+					"2 - Simular um jogo de entrega de comidas.\n" +
 					"9 - Sair."));
 			
 			switch (opc) {
@@ -37,6 +36,15 @@ public class Principal {
 					
 				case 2:
 					
+					int permissoes2 = 1;
+					Semaphore semaforo2 = new Semaphore(permissoes2);
+					
+					for (int foodThread = 0; foodThread < 5; foodThread++) {
+						
+						Thread threadFood = new ThreadFood(foodThread, semaforo2);
+						threadFood.start();
+						
+					}
 					
 					break;
 					
