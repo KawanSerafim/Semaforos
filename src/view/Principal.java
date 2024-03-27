@@ -37,11 +37,14 @@ public class Principal {
 				case 2:
 					
 					int permissoes2 = 1;
+					int id = 0;
+					
 					Semaphore semaforo2 = new Semaphore(permissoes2);
 					
 					for (int foodThread = 0; foodThread < 5; foodThread++) {
 						
-						Thread threadFood = new ThreadFood(foodThread, semaforo2);
+						id++;
+						Thread threadFood = new ThreadFood(foodThread, semaforo2, id);
 						threadFood.start();
 						
 					}
