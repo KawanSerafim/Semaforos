@@ -22,8 +22,7 @@ public class Principal {
 			
 				case 1:
 					
-					int permissoes = 1;
-					Semaphore semaforo = new Semaphore(permissoes);
+					Semaphore semaforo = new Semaphore(1);
 					
 					for (int transThread = 0; transThread < 21; transThread++) {
 						
@@ -36,10 +35,9 @@ public class Principal {
 					
 				case 2:
 					
-					int permissoes2 = 1;
-					int id = 0;
+					byte id = 0;
 					
-					Semaphore semaforo2 = new Semaphore(permissoes2);
+					Semaphore semaforo2 = new Semaphore(1);
 					
 					for (int foodThread = 0; foodThread < 5; foodThread++) {
 						

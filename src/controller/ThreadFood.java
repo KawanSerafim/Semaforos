@@ -1,110 +1,125 @@
 package controller;
 
 import java.util.concurrent.Semaphore;
+import controller.ThreadFood2;
 
 public class ThreadFood extends Thread{
 	
 	private int threadFood;
 	private Semaphore semaforo;
-	private int id;
+	private byte id;
 
-	public ThreadFood (int threadFood, Semaphore semaforo, int id) {
+	public ThreadFood() {}
+	
+	public ThreadFood (int threadFood, Semaphore semaforo, byte id) {
 		
 		this.threadFood = threadFood;
 		this.semaforo = semaforo;
 		this.id = id;
 		
 	}
-	
+
 	@Override
 	public void run() {
 		
-		byte prato;
-		
-		switch (id % 2) {
-		
-			case 0:
-				
-				prato = 1;
-				
-				System.out.println(id);
-				
-				cozimento(prato);
-				break;
-				
-			default:
-				
-				prato = 0;
-				
-				System.out.println(id);
-				
-				cozimento(prato);
-				break;
-		
-		}
-		
-	}
-	
-	public void cozimento(byte prato) {
-		
-		int tempo;
-		float tempoTotal;
-		int percentual;
+	    byte prato = (byte)(id % 2);
 		
 		switch (prato) {
 		
 			case 1:
 				
-				tempo = (int)(Math.random() * 601) + 600;
-				tempoTotal = tempo / 1000;
-				percentual = 0;
+				cozimento(prato, id);
+				break;
+				
+			case 0:
+		
+				cozimento(prato, id);
+				break;
+				
+		}
+		
+	}
+	
+	public void cozimento (byte prato, byte id) {
+		
+		int mili_Tempo = 0;
+		byte seg_Tempo = 0;
+		String nomePrato = "";
+		
+		switch (prato) {
+		
+			case 1:
+				
+				nomePrato = "Sopa de Cebola";
+				mili_Tempo = (int)(Math.random() * 301) + 500;
+				seg_Tempo = (byte)(mili_Tempo / 1000);
+				
 				
 				try {
 					
-					sleep (tempo);
+					Thread threadFood2 = new ThreadFood2(mili_Tempo, id, nomePrato);
+					threadFood2.start();
 					
-					for (float i = 0.1f; i <= (tempoTotal + 0.1); i += 0.1) {
-						
-						percentual = (int)(i * 100);
-						System.out.println("ID: " + id + " - Prato: Lasanha a Bolonhesa - " +
-								percentual + "% Pronto.");
-						
-					}
-					break;
+					System.out.println("ID: " + id + " - Prato: Sopa de Cebola - Iniciou" + 
+							" o seu preparo.");
+					
+					sleep(mili_Tempo);
 				
 				} catch (InterruptedException e) {
 					
 					e.printStackTrace();
-					break;
 				
 				}
-								
+				
+				break;
+				
 			case 0:
 				
-				tempo = (int)(Math.random() * 301) + 500;
-				tempoTotal = tempo / 1000;
-				percentual = 0;
+				nomePrato = "Lasanha a Bolonhesa";
+				mili_Tempo = (int)(Math.random() * 601) + 600;
+				seg_Tempo = (byte)(mili_Tempo / 1000);
+				
 				
 				try {
 					
-					sleep (tempo);
+					System.out.println("ID: " + id + " - Prato: Lasanha a Bolonhesa - Iniciou" +
+							" o seu preparo.");
 					
-					for (float i = 0.1f; i <= (tempoTotal + 0.1); i += 0.1) {
-						
-						percentual = (int)(i * 100);
-						System.out.println("ID: " + id + " - Prato: Sopa de Cebola - " +
-								percentual + "% Pronto.");
-						
-					}
-					break;
-				
+					Thread threadFood2 = new ThreadFood2(mili_Tempo, id, nomePrato);
+					threadFood2.start();
+					sleep(mili_Tempo);
+					
 				} catch (InterruptedException e) {
 					
 					e.printStackTrace();
-					break;
 				
-				}	
+				}
 				
+				break;
+				
+		}
+		
+	}
+	
+	public void entrega (String prato, byte id) {
+		
+		System.out.println("\nID: " + id + " - O prato: " + prato + " - Está pronto " + 
+				"para entrega");
+		
+		try {
+			
+			semaforo.acquire();
+			sleep(500);
+			System.out.println("\nID: " + id + "- O prato: " + prato + " - Foi entrege.");
+		
+		} catch (InterruptedException e) {
+			
+			e.printStackTrace();
+		
+		} finally {
+			
+			semaforo.release();
+			
 		}
 		
 	}
