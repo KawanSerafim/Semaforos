@@ -4,7 +4,7 @@ import java.util.concurrent.Semaphore;
 import controller.ThreadFood2;
 
 public class ThreadFood extends Thread{
-	
+
 	private int threadFood;
 	private Semaphore semaforo;
 	private byte id;
@@ -57,7 +57,7 @@ public class ThreadFood extends Thread{
 				
 				try {
 					
-					Thread threadFood2 = new ThreadFood2(mili_Tempo, id, nomePrato);
+					Thread threadFood2 = new ThreadFood2(mili_Tempo, id, nomePrato, semaforo);
 					threadFood2.start();
 					
 					System.out.println("ID: " + id + " - Prato: Sopa de Cebola - Iniciou" + 
@@ -85,7 +85,7 @@ public class ThreadFood extends Thread{
 					System.out.println("ID: " + id + " - Prato: Lasanha a Bolonhesa - Iniciou" +
 							" o seu preparo.");
 					
-					Thread threadFood2 = new ThreadFood2(mili_Tempo, id, nomePrato);
+					Thread threadFood2 = new ThreadFood2(mili_Tempo, id, nomePrato, semaforo);
 					threadFood2.start();
 					sleep(mili_Tempo);
 					
@@ -101,7 +101,7 @@ public class ThreadFood extends Thread{
 		
 	}
 	
-	public void entrega (String prato, byte id) {
+	public void entrega (String prato, byte id, Semaphore semaforo) {
 		
 		System.out.println("\nID: " + id + " - O prato: " + prato + " - Está pronto " + 
 				"para entrega");

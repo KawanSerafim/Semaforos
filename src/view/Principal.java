@@ -39,6 +39,9 @@ public class Principal {
 					
 					Semaphore semaforo2 = new Semaphore(1);
 					
+					System.out.println("\n================== OVERCOOKED ==================\n\n\n" +
+							"[ FASE DE PREPARO ]\n\n");
+					
 					for (int foodThread = 0; foodThread < 5; foodThread++) {
 						
 						id++;
